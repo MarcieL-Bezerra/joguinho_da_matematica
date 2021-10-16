@@ -16,7 +16,7 @@ const operacoes = []
 function iniciar(){
     nivel = document.getElementById("nivel").value;
     
-    if (pontos >= 3 && pontos <= 20 && nivel == "Iniciante"){
+    if (pontos >= 10 && pontos <= 20 && nivel == "Iniciante"){
         let mudandonivel = document.getElementById("nivel").value = "Intermediario";
         let mudandonivtext = document.getElementById("nivel").option = "Intermédiario";
         iniciandosom();
@@ -35,9 +35,9 @@ function iniciar(){
         primeiroval = parseFloat(document.getElementById("tabuada").value);
     }
     if(nivel=="Iniciante"){
-        segundoval = 0;
+        segundoval = Math.floor(Math.random() * 10);
         operacoes.length = 0;
-        operacoes.push("+","-","*","/");
+        operacoes.push("+","-","X","/");
     }else if (nivel=="Intermediario"){
         segundoval = Math.floor(Math.random() * 100);
         operacoes.length = 0;
@@ -56,32 +56,42 @@ function iniciar(){
     let min = 1;
     let max = 10;
     let errando = Math.floor(Math.random() * (max - min + 1)) + min;
-    
-    if(resultados == 'Não Existe divisão por 0'){
-        errado1 = 'Não Existe divisão por ' + errando;
-        errado2 = errando.toFixed(2);
-    }else{
-        errado1 = (resultados + errando).toFixed(2);
-        errado2 = (resultados - errando).toFixed(2);
-        resultados = resultados.toFixed(2);
-    }
-
-    const ordens = [errado1,resultados,errado2]
+    errado1 = (resultados + errando);
+    errado2 = (resultados - errando);
+    const ordens = [errado1,resultados,errado2];
     for (let i = 0; i < ordens.length; i++) {
         const j = Math.floor(Math.random() * (i + 1));
         [ordens[i], ordens[j]] = [ordens[j], ordens[i]];
     }
-    primeiroval = (primeiroval.toFixed(2)).replace('.', ',');
-    segundoval = (segundoval.toFixed(2)).replace('.', ',');
-    let orden0Formatado = (ordens[0]).replace('.', ',');
-    let orden1Formatado = (ordens[1]).replace('.', ',');
-    let orden2Formatado = (ordens[2]).replace('.', ',');
     
+    if(resultados == 'Não Existe divisão por 0'){
+        ordens.length = 0;
+        errado1 = 'Não Existe divisão por ' + errando;
+        errado2 = 'Não Existe divisão por  ' + primeiroval;
+        ordens.push(errado1,resultados,errado2);
+        for (let i = 0; i < ordens.length; i++) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [ordens[i], ordens[j]] = [ordens[j], ordens[i]];
+        }
+        
+        pagboto.innerHTML = `<button onclick="acertos(this.innerText)" >${ordens[1]}</button>` +
+        `<button onclick="acertos(this.innerText)" >${ordens[0]}</button>` +
+        `<button onclick="acertos(this.innerText)" >${ordens[2]}</button>`;
+        
+    }else{
+        
+      
+        primeiroval = (primeiroval.toFixed(2)).replace('.', ',');
+        segundoval = (segundoval.toFixed(2)).replace('.', ',');
+        let orden0Formatado = ((ordens[0]).toFixed(2)).replace('.', ',');
+        let orden1Formatado = ((ordens[1]).toFixed(2)).replace('.', ',');
+        let orden2Formatado = ((ordens[2]).toFixed(2)).replace('.', ',');
+    
+        pagboto.innerHTML = `<button onclick="acertos(this.value)" value=${ordens[1]}>${orden1Formatado}</button>` +
+        `<button onclick="acertos(this.value)" value=${ordens[0]}>${orden0Formatado}</button>` +
+        `<button onclick="acertos(this.value)" value=${ordens[2]}>${orden2Formatado}</button>`;
+    }
     pagina.innerHTML = `<h4 id="valincial">${primeiroval}</h4>` + `<h4>${operacao}</h4>` + `<h4>${segundoval}</h4>` + `<h4> = ? </h4>` ;
-    pagboto.innerHTML = `<button onclick="acertos(this.value)" value=${ordens[1]}>${orden1Formatado}</button>` +
-     `<button onclick="acertos(this.value)" value=${ordens[0]}>${orden0Formatado}</button>` +
-      `<button onclick="acertos(this.value)" value=${ordens[2]}>${orden2Formatado}</button>`;
-    
 
 }
 
@@ -115,31 +125,56 @@ function calculando(valor1,tpopera,valor2){
 
 
 function acertos(enviado){
-    if (enviado==resultados){
-        pontos ++;
-        enviado = enviado.replace('.', ',');
-        document.getElementById("pontando").innerText=pontos + " Pontos";
-        pagboto.innerHTML = `<img src="image/fogos.gif" />`;
-        pagina.innerHTML += `<h4>Você Acertou = ${enviado} </h4>`;
-        
-        
-        let espera = setTimeout(function() {
-            iniciar();
-            }, 3000)
-        //alert("Você Acertou");
-        //reiniciando();
+    if(resultados == 'Não Existe divisão por 0'){
+        if (enviado==resultados){
+            pontos ++;
+            //resultados = ((resultados).toFixed(2)).replace('.', ',');
+            document.getElementById("pontando").innerText=pontos + " Pontos";
+            pagboto.innerHTML = `<img src="image/fogos.gif" />`;
+            pagina.innerHTML += `<h4>Você Acertou = ${resultados} </h4>`;
+                     
+            let espera = setTimeout(function() {
+                iniciar();
+                }, 3000)
+            //alert("Você Acertou");
+            //reiniciando();
+        }else{
+            pontos --;
+            //resultados = ((resultados).toFixed(2)).replace('.', ',');
+            document.getElementById("pontando").innerText=pontos + " Pontos";
+            pagboto.innerHTML = `<img src="image/errou.gif" />`;
+            pagina.innerHTML += `<h4>Você errou seria = ${resultados} </h4>`;
+            let espera = setTimeout(function() {
+                iniciar();
+                }, 3000)
+        }  
     }else{
-        pontos --;
-        resultados = resultados.replace('.', ',');
-        document.getElementById("pontando").innerText=pontos + " Pontos";
-        pagboto.innerHTML = `<img src="image/errou.gif" />`;
-        pagina.innerHTML += `<h4>Você errou seria = ${resultados} </h4>`;
-        console.log("resultados: " + resultados)
-        console.log("enviado: " + enviado)
-        let espera = setTimeout(function() {
-            iniciar();
-            }, 3000)
-    } 
+        if (enviado==resultados){
+            pontos ++;
+            resultados = ((resultados).toFixed(2)).replace('.', ',');
+            document.getElementById("pontando").innerText=pontos + " Pontos";
+            pagboto.innerHTML = `<img src="image/fogos.gif" />`;
+            pagina.innerHTML += `<h4>Você Acertou = ${resultados} </h4>`;
+            
+            
+            let espera = setTimeout(function() {
+                iniciar();
+                }, 3000)
+            //alert("Você Acertou");
+            //reiniciando();
+        }else{
+            pontos --;
+            resultados = ((resultados).toFixed(2)).replace('.', ',');
+            document.getElementById("pontando").innerText=pontos + " Pontos";
+            pagboto.innerHTML = `<img src="image/errou.gif" />`;
+            pagina.innerHTML += `<h4>Você errou seria = ${resultados} </h4>`;
+            console.log("resultados: " + resultados)
+            console.log("enviado: " + enviado)
+            let espera = setTimeout(function() {
+                iniciar();
+                }, 3000)
+        }
+} 
 }
 iniciar()
 function reiniciando(){
