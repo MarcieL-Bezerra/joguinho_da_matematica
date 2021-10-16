@@ -50,7 +50,12 @@ function iniciar(){
     
     var sorteio = Math.floor(Math.random() * (operacoes.length));
     let operacao = operacoes[sorteio];
-    
+    if (operacao=="^"){
+        let min = 1;
+        let max = 10;
+        segundoval = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    }
     
     resultados = calculando(primeiroval,operacao,segundoval);
     let min = 1;
