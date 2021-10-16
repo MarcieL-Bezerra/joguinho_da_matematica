@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoguinhoDaMatematica</title>
+    <link href="css/style.css" type="text/css" rel="stylesheet" />
+    
+</head>
+<body>
+    
+    <h3>JOGUINHO DA MATEMÁTICA</H3>
+    <H3>Leia com atenção e clique na resposta correta:</H3>
+    <div id="localdepontos">
+        <h3 id="pontando" >0 Pontos</h3> 
+    </div>
+    <div id="selecoes">
+        <select id="nivel" onchange="iniciar()" name="select">
+            <option value="Iniciante" selected>Iniciante</option>
+            <option value="Intermediario" >Intermédiario</option>
+            <option value="Avançado">Avançado</option>
+        </select>
+   
+        <select id="tabuada" onchange="iniciar()" name="select">
+            <option value="Aleatório" selected>Aleatório</option>
+            <option value=2 >Tabuada do 2</option>
+            <option value=3 >Tabuada do 3</option>
+            <option value=4 >Tabuada do 4</option>
+            <option value=5 >Tabuada do 5</option>
+            <option value=6 >Tabuada do 6</option>
+            <option value=7 >Tabuada do 7</option>
+            <option value=8 >Tabuada do 8</option>
+            <option value=9 >Tabuada do 9</option>
+        </select>
+    </div> 
+        <div id="inicial"></div> <br>
+        <div id="botoes" ></div><br>
+    <div id="botaoreinicia">
+        <button id="reiniciador" onclick="reiniciando()">Recomeçar</button>
+    </div>
+
+    
+        
+        <script src="js/jscript.js"></script>
+        <script src="js/ssweetalert2.js"></script>   
+</body>
+</html>
